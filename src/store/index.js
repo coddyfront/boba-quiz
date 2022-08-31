@@ -23,9 +23,13 @@ const store = createStore({
             if (quizAllReadyExists === null) {
               result = await createQuiz({quizId: payload.quizId, quizData: payload.quizData})
               console.log("Quiz successfully created")
+              result = true
+              return result
             }
             else {
+              result = false
               console.log("Quiz with mentioned ID already exists")
+              return result
             // let result = await getQuiz('9QiyqZuu')
             }
           } catch (error) {

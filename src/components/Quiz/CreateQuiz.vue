@@ -49,48 +49,26 @@
               </span>
           </div>
         </div>
-        {{quiz[current_question.position].correct_answer}}
+        <!-- {{quiz[current_question.position].correct_answer}} -->
       </div>
+      <Modal @close="closeModal" v-show="isModalVisible"></Modal>
   </div>
 </template>
 
-<style >
-.p-fieldset {
-  border: none !important;
-  
-}
-.p-fieldset-legend a {
-  padding: 0.5rem 1rem !important;
-}
-.p-divider.p-divider-horizontal {
-  margin: 0 0 !important;
-}
-.p-radiobutton {
-  width: 2rem !important;
-  height: 1.8rem !important;
-}
-.p-radiobutton-box {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 2px !important;
-}
-.p-radiobutton-icon {
-  width: 0.5rem !important;
-  height: 0.5rem !important;
-}
-</style>
+
 <script >
-import { nextTick, ref,defineComponent } from 'vue';
+import { nextTick } from 'vue';
 import { createToast } from 'mosha-vue-toastify';
 // import the styling for the toast
 import 'mosha-vue-toastify/dist/style.css';
-
+import Modal from '@/components/Library/Modal.vue'
 
 export default {
   data(){
     return {
       selectedCategory:'',
       newAnswer: "",
+      isModalVisible: false,
       newAnswerFocused: true,
       current_question: {
         position: 0,
@@ -109,6 +87,9 @@ export default {
        
       ]
     }
+  },
+  components: {
+    Modal
   },
   setup(){
     // import radioType from '@/assets/questionTypeRadio.png';
@@ -129,6 +110,12 @@ export default {
           return { toastError }
   },
   methods: {
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
     changeCorrectQuestionId(index){
       console.log('change', index)
       this.current_question.correct_question_id = index
@@ -145,17 +132,28 @@ export default {
     async createQuiz(){
         let error = false
         for(let item of this.quiz) {
+          // Error handle
           if (item.correct_answer == "" || item.question === "" ) {
-            error = true
+            return this.toastError('Вы не заполнили вопрос полностью!')
           }
         }
         console.log(this.quiz)
+        console.log(error)
         if (error == false) {
           this.$store.dispatch('createQuiz', {
             quizId: this.$route.params.quizId,
             quizData: this.quiz
+          }).then(result => {
+            console.log(result)
+            if (result == true) {
+              // document.body.setAttribute('disabled', "")
+
+              this.showModal()
+            }else {
+              return this.toastError('Прозошла какая-то ошибка :<')
+            }
           })
-          
+          // console.log(result)
         }
     },
     async createNewQuestion() {
@@ -187,6 +185,16 @@ export default {
         this.quiz[this.current_question.position].answers.splice(index,1)
       }
   },
+  updated(){
+    document.body.querySelectorAll('textarea').forEach(item => {
+      item.style.height = item.scrollHeight  + "px";
+    })
+  },
+  mounted(){
+    document.body.querySelectorAll('textarea').forEach(item => {
+      item.style.height = item.scrollHeight  + "px";
+    })
+  },
   watch: {
     newAnswerFocused(newData, oldData) {
       console.log(newData)
@@ -201,3 +209,28 @@ export default {
   }
 }
 </script>
+<style >
+  .p-fieldset {
+    border: none !important;
+    
+  }
+  .p-fieldset-legend a {
+    padding: 0.5rem 1rem !important;
+  }
+  .p-divider.p-divider-horizontal {
+    margin: 0 0 !important;
+  }
+  .p-radiobutton {
+    width: 2rem !important;
+    height: 1.8rem !important;
+  }
+  .p-radiobutton-box {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 2px !important;
+  }
+  .p-radiobutton-icon {
+    width: 0.5rem !important;
+    height: 0.5rem !important;
+  }
+  </style>
