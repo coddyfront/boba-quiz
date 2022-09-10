@@ -15,6 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  // port: 3000,
+
   // base: process.env.NODE_ENV === 'production' ? '/boba-quiz/' : './',
   base: '/'
   
