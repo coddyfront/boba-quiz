@@ -1,4 +1,3 @@
-import { createApp } from 'vue'
 import { createStore} from 'vuex'
 // Import the functions you need from the SDKs you need
 import {createQuiz,  getQuiz } from '../../firebase'

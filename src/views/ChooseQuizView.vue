@@ -34,7 +34,7 @@ export default {
     methods: {
         chooseQuiz(){
             if (this.quizId != "") {
-                this.$router.push({ name: 'completeQuiz', params: { quizId: this.quizId } })
+                this.$router.push({ name: 'CompleteQuizView', params: { quizId: this.quizId } })
             }else {
             this.toastError('Квиза с данным ID не существует!')
 

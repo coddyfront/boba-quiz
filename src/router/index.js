@@ -1,19 +1,59 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import CreateQuizView from '../views/CreateQuizView.vue';
-import ChooseQuizView from '../views/ChooseQuizView.vue';
-import CompleteQuizView from '../views/CompleteQuizView.vue';
 import {getQuiz} from '../../firebase'
+import CreateQuizView from '../views/CreateQuizView.vue'
+import CreateQuiz2View from '../views/CreateQuiz2View.vue'
+import {storeToRefs} from 'pinia'
+import { useSolveQuizStore } from '@/stores/quizSolve';
+import { useCreateQuizStore } from '../stores/quiz'
+import { useResultsQuizStore } from '../stores/quizResults'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: ()=> import ('../views/HomeView.vue'),
+      beforeEnter: async (to, from, next) => {
+        const solveStore = useSolveQuizStore();
+        const createStore = useCreateQuizStore()
+        const resultsStore = useResultsQuizStore()
+        solveStore.$reset()
+        createStore.$reset()
+        resultsStore.$reset()
+        next()
+      }
     },
     {
-      path: '/create',
+      path: '/create2/',
+      name: 'create2',
+      beforeEnter: async (to, from, next) => {
+        if (from.name !== 'home') next({name: 'home'})
+        else {
+          let id = generatePassword()
+          next({name: 'createQuiz2', params: {quizId: id}})
+        }
+      },
+    },
+    {
+      path: '/create2/:quizId(.*)',
+      name: 'createQuiz2',
+      component: CreateQuiz2View
+        // next()
+    },
+    {
+      name: 'quizResults',
+      path: '/results/:quizId(.*)',
+      component: ()=> import('../components/Quiz/ResultsQuiz.vue'),
+      beforeEnter: async (to, from, next) => {
+        if (to.query.username === '' || to.query.username===undefined) {
+          next({name: 'home'})
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/create/',
       name: 'create',
       beforeEnter: async (to, from, next) => {
         if (from.name !== 'home') next({name: 'home'})
@@ -24,7 +64,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/create/:quizId',
+      path: '/create/:quizId(.*)',
       name: 'createQuiz',
       component: CreateQuizView
         // next()
@@ -32,26 +72,51 @@ const router = createRouter({
     {
       path: '/complete',
       name: 'chooseQuiz',
-      component: ChooseQuizView,
+      component: ()=> import('../views/ChooseQuizView.vue'),
     },
     {
-      path: '/complete/:quizId',
-      component: () => import('../views/CompleteQuizView.vue'),
-      name: 'completeQuiz',
+      path: '/solve',
+      name: 'solve',
+      component: ()=> import('../views/ChooseQuizView2.vue')
+    },
+    {
+      path: '/solve/:quizId',
+      component: ()=> import('../views/CompleteQuizView.vue'),
+      name: 'solveView',
       beforeEnter: async (to, from, next) => {
-        // if (from.name !== 'chooseQuiz') {
-        //   next({name: 'chooseQuiz'})
-        // }
-        // else {
-          
-          let quizAllReadyExists = await getQuiz(to.params.quizId)
-          if (quizAllReadyExists === null) {
+        const store = useSolveQuizStore()
+        
+        console.log(store)
+        let quizAddedToStore = await store.getQuizFromDB(to.params.quizId)
+        if (!quizAddedToStore) {
             next({name: 'chooseQuiz', query: {error: '1'}})
-          }
+            store.$reset()
+        }else {
+          // console.log(quizAddedToStore, to.query.username)
+          store.username = to.query.username
+          store.quizId = to.params.quizId
           next()
-        // }
-      },
-    }
+        }
+      }
+    },
+    // {
+    //   path: '/complete/:quizId',
+    //   component: () => import('../views/CompleteQuizView.vue'),
+    //   name: 'completeQuiz',
+    //   beforeEnter: async (to, from, next) => {
+    //     // if (from.name !== 'chooseQuiz') {
+    //     //   next({name: 'chooseQuiz'})
+    //     // }
+    //     // else {
+          
+    //       let quizAllReadyExists = await getQuiz(to.params.quizId)
+    //       if (quizAllReadyExists === null) {
+    //         next({name: 'chooseQuiz', query: {error: '1'}})
+    //       }
+    //       next()
+    //     // }
+    //   },
+    // }
     
 
     // {

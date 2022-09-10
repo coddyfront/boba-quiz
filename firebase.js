@@ -24,7 +24,7 @@ const db = firebaseApp.firestore();
 const quiezCollection = db.collection('quizes')
 
 
-const createQuiz = async (quiz) => {
+const createQuizDB = async (quiz) => {
   return quiezCollection.add(quiz)
   // let quizAllReadyExists = await getQuiz(quiz.quizId)
   // console.log(quizAllReadyExists + "quizAllReadyExists")
@@ -40,5 +40,4 @@ const getQuiz = async (quizId) => {
   if (quiz !== undefined && quiz.exists) return quiz.data()
   else return null
 }
-export {createQuiz}
-export {getQuiz}
+export {createQuizDB,getQuiz}

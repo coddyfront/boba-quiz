@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=/boba-quiz/",
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "cssnano": "^5.1.13",
     "domhandler": "^5.0.3",
     "firebase": "^8.10.1",
     "mosha-vue-toastify": "^1.0.23",
+    "pinia": "^2.0.21",
     "primevue": "^3.16.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3",

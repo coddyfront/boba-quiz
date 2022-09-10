@@ -34,5 +34,12 @@ export default {
 }
 </script>
 <style>
+#app {
+  position: relative;
+  background: url('/blob-scene.svg') no-repeat center center !important;
+  background-size: 2000px;
+  overflow-x:hidden;
+
+}
 
 </style>
