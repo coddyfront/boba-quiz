@@ -83,12 +83,12 @@
       nextTick
     } from 'vue';
     import { RouterLink } from 'vue-router';
-    import QuizCreateNumber from '../QuizCreate/QuizCreateNumber.vue'
-    import QuizCreateNewAnswerVue from '../QuizCreate/QuizCreateNewAnswer.vue';
+    const QuizCreateNumber =()=> import('../QuizCreate/QuizCreateNumber.vue')
+    const QuizCreateNewAnswerVue =()=> import('../QuizCreate/QuizCreateNewAnswer.vue')
+    const Modal =()=> import('@/components/Library/Modal.vue')
     import {toastError} from '../../../services/toast.js'
     import { useCreateQuizStore } from '@/stores/quiz';
     import {mapState,mapActions} from 'pinia';
-  import Modal from '@/components/Library/Modal.vue';
     import SimpleTooltipVue from '@/components/Library/SimpleTooltip.vue';
     export default {
       data() {

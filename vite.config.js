@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   build: {
     minify: true,
+    chunkSizeWarningLimit: 600,
   },
   resolve: {
     alias: {
@@ -15,4 +16,5 @@ export default defineConfig({
     }
   },
   base: process.env.NODE_ENV === 'production' ? '/boba-quiz/' : './',
+  
 })
