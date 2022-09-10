@@ -7,14 +7,16 @@ import { useSolveQuizStore } from '@/stores/quizSolve';
 import { useCreateQuizStore } from '../stores/quiz'
 import { useResultsQuizStore } from '../stores/quizResults';
 import CompleteQuizView from '../views/CompleteQuizView.vue';
+import ChooseQuizView2 from '../views/ChooseQuizView2.vue';
 import ResultsQuiz from '../components/Quiz/ResultsQuiz.vue'
+import HomeView from '../views/HomeView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: ()=> import ('../views/HomeView.vue'),
+      component: HomeView,
       beforeEnter: async (to, from, next) => {
         const solveStore = useSolveQuizStore();
         const createStore = useCreateQuizStore()
@@ -65,21 +67,21 @@ const router = createRouter({
         }
       },
     },
-    {
-      path: '/create/:quizId(.*)',
-      name: 'createQuiz',
-      component: CreateQuizView
-        // next()
-    },
-    {
-      path: '/complete',
-      name: 'chooseQuiz',
-      component: ()=> import('../views/ChooseQuizView.vue'),
-    },
+    // {
+    //   path: '/create/:quizId(.*)',
+    //   name: 'createQuiz',
+    //   component: CreateQuizView
+    //     // next()
+    // },
+    // {
+    //   path: '/complete',
+    //   name: 'chooseQuiz',
+    //   component: ()=> import('../views/ChooseQuizView.vue'),
+    // },
     {
       path: '/solve',
       name: 'solve',
-      component: ()=> import('../views/ChooseQuizView2.vue')
+      component: ChooseQuizView2
     },
     {
       path: '/solve/:quizId',
