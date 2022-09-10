@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import {storeToRefs} from 'pinia'
 import { useSolveQuizStore } from '@/stores/quizSolve';
 import { useCreateQuizStore } from '../stores/quiz'
 import { useResultsQuizStore } from '../stores/quizResults'
@@ -48,23 +50,6 @@ const router = createRouter({
         }
       }
     },
-    // {
-    //   path: '/create/',
-    //   name: 'create',
-    //   beforeEnter: async (to, from, next) => {
-    //     if (from.name !== 'home') next({name: 'home'})
-    //     else {
-    //       let id = generatePassword()
-    //       next({name: 'createQuiz', params: {quizId: id}})
-    //     }
-    //   },
-    // },
-    // {
-    //   path: '/create/:quizId(.*)',
-    //   name: 'createQuiz',
-    //   component: CreateQuizView
-    //     // next()
-    // },
     {
       path: '/complete',
       name: 'chooseQuiz',

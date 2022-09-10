@@ -9,7 +9,6 @@ import { RouterLink, RouterView } from 'vue-router'
           <button class="btn-primary animate-scale-up-center w-full">Пройти QUIZ
           </button>
         </RouterLink>
-
         <!-- <RouterLink :to="{name: 'create'}">
           <button class="btn-primary animate-scale-up-center w-full">Создать QUIZ
           </button>
