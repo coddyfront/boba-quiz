@@ -18,7 +18,7 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
-
+// "build": "vite build --base=/boba-quiz/",
 app.component('Divider', Divider);
 app.component('Fieldset', Fieldset);
 app.use(router)

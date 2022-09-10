@@ -48,23 +48,23 @@ const router = createRouter({
         }
       }
     },
-    {
-      path: '/create/',
-      name: 'create',
-      beforeEnter: async (to, from, next) => {
-        if (from.name !== 'home') next({name: 'home'})
-        else {
-          let id = generatePassword()
-          next({name: 'createQuiz', params: {quizId: id}})
-        }
-      },
-    },
-    {
-      path: '/create/:quizId(.*)',
-      name: 'createQuiz',
-      component: CreateQuizView
-        // next()
-    },
+    // {
+    //   path: '/create/',
+    //   name: 'create',
+    //   beforeEnter: async (to, from, next) => {
+    //     if (from.name !== 'home') next({name: 'home'})
+    //     else {
+    //       let id = generatePassword()
+    //       next({name: 'createQuiz', params: {quizId: id}})
+    //     }
+    //   },
+    // },
+    // {
+    //   path: '/create/:quizId(.*)',
+    //   name: 'createQuiz',
+    //   component: CreateQuizView
+    //     // next()
+    // },
     {
       path: '/complete',
       name: 'chooseQuiz',
