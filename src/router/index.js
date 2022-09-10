@@ -5,7 +5,9 @@ import CreateQuiz2View from '../views/CreateQuiz2View.vue'
 import {storeToRefs} from 'pinia'
 import { useSolveQuizStore } from '@/stores/quizSolve';
 import { useCreateQuizStore } from '../stores/quiz'
-import { useResultsQuizStore } from '../stores/quizResults'
+import { useResultsQuizStore } from '../stores/quizResults';
+import CompleteQuizView from '../views/CompleteQuizView.vue';
+import ResultsQuiz from '../components/Quiz/ResultsQuiz.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -43,7 +45,7 @@ const router = createRouter({
     {
       name: 'quizResults',
       path: '/results/:quizId(.*)',
-      component: ()=> import('../components/Quiz/ResultsQuiz.vue'),
+      component: ResultsQuiz,
       beforeEnter: async (to, from, next) => {
         if (to.query.username === '' || to.query.username===undefined) {
           next({name: 'home'})
@@ -81,7 +83,7 @@ const router = createRouter({
     },
     {
       path: '/solve/:quizId',
-      component: ()=> import('../views/CompleteQuizView.vue'),
+      component: CompleteQuizView,
       name: 'solveView',
       beforeEnter: async (to, from, next) => {
         const store = useSolveQuizStore()
