@@ -79,7 +79,7 @@ const router = createRouter({
     //   component: ()=> import('../views/ChooseQuizView.vue'),
     // },
     {
-      path: '/solve',
+      path: '/solve/',
       name: 'solve',
       component: ChooseQuizView2
     },
