@@ -6,8 +6,8 @@
             <div class="flex justify-between w-full items-center">
                 <div class="flex gap-3 items-end">
                     <h3 class="font-semibold text-xl">Результаты</h3>
-                    <span>{{correctAnswers}}</span>
-                    <span>{{uncorrectAnswers}}</span>
+                    <span class="text-lime-300">{{correctAnswers}}</span>
+                    <span class="text-rose-400">{{uncorrectAnswers}}</span>
                 </div>
                 <button class="btn-secondary px-2 py-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

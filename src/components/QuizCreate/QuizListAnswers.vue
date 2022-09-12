@@ -1,8 +1,8 @@
 <template>
         <li class="w-full md:w-3/4 flex py-2 px-4 gap-2 justify-between items-center bg-rhino-50/50 rounded-md" v-for="(answer,index) in answers" :key="index">
 
-            <input type="radio" :value="index" v-model="this.correct_answer" :id="index" name="correct_answer" class="radio" v-show="typeOfQuestion === `radio`" :ref="`radio`+index" />
-            <input type="checkbox" :value="index" v-model="this.store.quiz[this.store.questionNumber].correct_answers" :id="index" name="correct_answers" class="checkbox" v-show="typeOfQuestion === `multiple`" :ref="`checkbox` + index" />
+            <input type="radio" :value="index" v-model="this.store.quiz[this.store.questionNumber].user_answer" :id="index" name="correct_answer" class="radio" v-show="typeOfQuestion === `radio`" :ref="`radio`+index" />
+            <input type="checkbox" :value="index" v-model="this.store.quiz[this.store.questionNumber].user_answers" :id="index" name="correct_answers" class="checkbox" v-show="typeOfQuestion === `multiple`" :ref="`checkbox` + index" />
             <textarea type="text" v-model="answers[index]" class="w-full px-4 py-2 resize-y leading-6 bg-transparent rounded-none outline-none border-none focus:ring-0" rows="1" @input="resizeTextArea($event, index)" @focus="resizeTextArea($event, index)" draggable="false"></textarea>
             <div @click="deleteQuestion(index)">
                 <button class="h-max flex item-center justify-center">
@@ -22,35 +22,18 @@ export default {
     name: "QuizListAnswers",
     props: ['typeOfQuestion'],
     data(){
-        return {
-            correct_answers:[]
-        }
     },
     updated(){
         console.log("Updated")
     }, 
     computed: {
-        correct_answer: {
-            get(){
-                return this.store.quiz[this.store.questionNumber].correct_answer
-            },
-            set(value){
-                console.log(value)
-                this.setCorrectRadioAnswer(this.questionNumber, value)
-            }
-        },
+        
         questionNumber(){
             return this.store.questionNumber
         },
         answers(){
             return this.store.quiz[this.store.questionNumber].answers
         }
-    },
-    watch: {
-        correct_answers(newValue, oldValue) {
-            console.log( newValue, oldValue)
-            this.setCorrectMultipleAnswers(this.questionNumber, this.correct_answers)
-        } 
     },
     setup(){
         const store = useCreateQuizStore()

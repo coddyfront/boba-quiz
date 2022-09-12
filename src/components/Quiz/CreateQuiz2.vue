@@ -127,15 +127,13 @@
         },
         async createNewQuestion() {
           if (this.quiz[this.questionNumber].question !== "") {
-            if (this.quiz[this.questionNumber].correct_answer !== "" || this.quiz[this.questionNumber].correct_answers.length !==0) {
+            if (this.quiz[this.questionNumber].user_answer !== "" || this.quiz[this.questionNumber].user_answers.length !==0) {
               if(this.questionNumber === this.quiz.length - 1) {
                 this.quiz.push({
                   question: "",
                   answers: [],
-                  correct_answer: "",
                   user_answer: 0,
                   user_answers: new Array(),
-                  correct_answers: [],
                   typeOfQuestion: "radio",
                 })
               }
