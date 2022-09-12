@@ -111,8 +111,10 @@
           let error = false
           // console.log(this.quiz)
           // console.log(error)
+          if(this.quiz[this.questionNumber].question === '') return this.toastError('вопрос не может быть пустым :<')
           if (error == false) {
             console.log('create')
+
             await this.createQuiz().then(async (result) => {
               console.log(result) 
               if (result == true) {
