@@ -12,8 +12,8 @@
                 <ul class="flex flex-col gap-2 items-center p-2">
                     <li class="divide-2 flex cursor-pointer items-center gap-4 divide-rhino-400 rounded-md border-b-2 border-b-rhino-500 bg-rhino-50 px-4 py-2 leading-6 text-rhino-900 transition hover:scale-105 transform duration-300  hover:shadow-xl w-full justify-between" v-for="(answer,index) in answers" :key="index">
                         <div ></div>
-                        <input type="radio" class="radio" name="right_answer" :id="index" :value="index" v-model="store.quiz[this.questionNumber].user_answer" v-show="typeOfQuestion==='radio'">
-                        <input type="checkbox" :id="index" class="checkbox" name="checkbox" :value="index"   v-model="store.quiz[this.questionNumber].user_answers" v-show="typeOfQuestion==='multiple'">
+                        <input type="radio" class="radio" name="right_answer" :id="index" :value="index" v-model="store.quiz[this.questionNumber].right_answer" v-show="typeOfQuestion==='radio'">
+                        <input type="checkbox" :id="index" class="checkbox" name="checkbox" :value="index"   v-model="store.quiz[this.questionNumber].right_answers" v-show="typeOfQuestion==='multiple'">
                         <label type="text" :for="index" class="border-none cursor-pointer w-full px-4 py-2 resize-y leading-5 bg-transparent">{{answer}}</label>
                     </li>
                 </ul>
@@ -54,13 +54,14 @@ export default {
     },
     setup() {
         const store = useSolveQuizStore()
+        store.questionNumber = 0
         return {store}
     },
     methods: {
         ...mapActions(useSolveQuizStore, ['plusQuestionNumber', 'minusQuestionNumber', 'setCorrectRadioAnswer', 'getQuizFromDB']),
        
         async nextQuestion() {
-           if (this.questionNumber < this.store.quiz.length - 1) {
+           if (this.questionNumber <= this.store.quiz.length - 1) {
             this.store.questionNumber++
            }else {
             this.$router.push({name: 'quizResults', params: {quizId: this.store.quizId}, query: {username: this.store.username}})

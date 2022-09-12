@@ -15,8 +15,10 @@ export const useCreateQuizStore = defineStore('quiz', {
             'Go to the next question',
             'sdk maskdmadkad adm am asd maskdm akd asd ad mamd asdm asd mad k ak'
         ],
-        user_answer: 0,
+        user_answer: "",
         user_answers: new Array() || [],
+        right_answer: "",
+        right_answers: new Array() || [],
         }
     ],
     quizId: "",

@@ -132,7 +132,9 @@
                 this.quiz.push({
                   question: "",
                   answers: [],
-                  user_answer: 0,
+                  user_answer: "",
+                  right_answer: "",
+                  right_answers: new Array(),
                   user_answers: new Array(),
                   typeOfQuestion: "radio",
                 })

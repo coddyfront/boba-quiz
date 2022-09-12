@@ -18,7 +18,7 @@ export const useResultsQuizStore = defineStore('quizResults', {
         await quiz.quiz.forEach(async(item) =>{
             console.log(item)
             if (item.typeOfQuestion === 'radio') {
-                if (item.user_answer == item.correct_answer) {
+                if (item.user_answer == item.right_answer) {
                     await this.correctAnswers++
                     console.log(true)
                 }else {
@@ -28,7 +28,7 @@ export const useResultsQuizStore = defineStore('quizResults', {
                 }
             }
             if (item.typeOfQuestion === 'multiple') {
-                if (item.correct_answer.includes(item.user_answers)) {
+                if (item.user_answers.includes(item.right_answers)) {
                     await this.correctAnswers++
                 }else {
                     await this.uncorrectAnswers++
