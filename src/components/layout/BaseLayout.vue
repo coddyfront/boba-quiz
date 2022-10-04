@@ -5,21 +5,27 @@ import { RouterLink } from 'vue-router';
     <div class="w-full ">
         <header class="bg-rhino-700 text-white  py-2 px-4 flex justify-between items-center ">
             <!-- Logo div -->
-            <!-- <keep-alive> -->
+            <keep-alive>
                 <div class="">
-                    <RouterLink to="/" class="flex items-center gap-x-2 text-xl font-bold">
-                        <img class="pop object-fill w-8 h-8 rounded-full"  src="https://play-lh.googleusercontent.com/Mj_MnS1Rfw57dG529XDloAAEFlKBgZNVYXQepGCkdiEz77seAkbR0uUAlK69WNAvylc" alt="">
+                    <RouterLink to="/" class="flex items-center gap-x-2 text-xl font-bold ">
+                        <div class="bg-rhino-100 p-2 rounded-full w-12 h-12 flex items-center justify-center">
+                           <img class="pop object-fill w-10 h-10"  src="/logo.svg" alt="">
+                        </div>
                         Boba Quiz
                     </RouterLink>
                 </div>
-            <!-- </keep-alive> -->
+            </keep-alive>
             <slot name="header"></slot>
         </header>
-        <main class="min-h-[65vh] mt-4 ">
+        <main class="min-h-[65vh] mt-4 flex flex-col items-center">
             <slot name="main"></slot>
         </main>
         <footer class="bg-rhino-700 text-white w-full py-2 px-4 flex flex-col items-center justify-center text-sm">
-            <slot name="footer"></slot>
+
+            <keep-alive>
+                <slot name="footer"></slot>
+            </keep-alive>
+
         </footer>
     </div>    
 </template>

@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
-import {createQuizDB,  getQuiz } from '../../firebase';
+// import {createQuizDB,  getQuiz } from '../../firebase';
+import { reactive } from 'vue'
+import useQuiz from "@/composables/useQuiz";
 // You can name the return value of `defineStore()` anything you want, but it's best to use the name of the store and surround it with `use` and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useCreateQuizStore = defineStore('quiz', {
@@ -7,13 +9,10 @@ export const useCreateQuizStore = defineStore('quiz', {
   state: () =>  ({
     quiz: [
         {
-        question: "What do you want to do?",
+        question: "",
         typeOfQuestion: "radio",
         answers: [
-            "Do not know",
-            "Go away!",
-            'Go to the next question',
-            'sdk maskdmadkad adm am asd maskdm akd asd ad mamd asdm asd mad k ak'
+            
         ],
         user_answer: "",
         user_answers: new Array() || [],
@@ -25,10 +24,10 @@ export const useCreateQuizStore = defineStore('quiz', {
     questionNumber: 0,
   }),
   getters: {
-    getQuizFromDB: () => async (quizId) => {
-      let quiz = await getQuiz(quizId)
-      return quiz
-    }
+    // getQuizFromDB: () => async (quizId) => {
+    //   let quiz = await getQuiz(quizId)
+    //   return quiz
+    // }
   },
   actions: {
     plusQuestionNumber(){
@@ -37,15 +36,11 @@ export const useCreateQuizStore = defineStore('quiz', {
     minusQuestionNumber(){
       this.questionNumber--
     },
-    setCorrectRadioAnswer(question_index, answer) {
-        this.quiz[question_index].correct_answer = answer;
-    },
-    resetRadioAnswer(question_index){
-      this.quiz[question_index].correct_answer = "";
-    },
-    setCorrectMultipleAnswers(question_index, answers) {
-      this.quiz[question_index].correct_answers = []
-        this.quiz[question_index].correct_answers = answers
+    deleteQuestion(){
+      if (this.questionNumber != 0) {
+      this.quiz.pop(this.questionNumber)
+      this.questionNumber--
+    }
     },
     setTypeOfQuestion(question_index, typeOfQuestion) {
         this.quiz[question_index].typeOfQuestion = typeOfQuestion
@@ -55,27 +50,51 @@ export const useCreateQuizStore = defineStore('quiz', {
     },
     resetQuiz(){
       this.$reset()
-      console.log(1)
+    },
+    generateUUID() {
+      let
+        d = new Date().getTime(),
+        d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        let r = Math.random() * 16;
+        if (d > 0) {
+          r = (d + r) % 16 | 0;
+          d = Math.floor(d / 16);
+        } else {
+          r = (d2 + r) % 16 | 0;
+          d2 = Math.floor(d2 / 16);
+        }
+        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+      });
     },
     async createQuiz() {
-      let result = null
+      const {insertQuiz} = useQuiz();
       try {
-        let quizAllReadyExists = await getQuiz(this.quizId)
-        console.log(quizAllReadyExists)
-        if (quizAllReadyExists === null) {
-          result = await createQuizDB({quizId: this.quizId, quizData: this.quiz})
-          console.log("Quiz successfully created")
-          result = true
-          return result
-        }
-        else {
-          result = false
-          console.log("Quiz with mentioned ID already exists")
-          return result
-        }
-      } catch (error) {
+        let {data, error} = await insertQuiz(this.quiz, this.quizId)
         console.log(error)
+        console.log("Quiz successfully created")
+        return error
+      } catch (e) {
+        console.log(e)
+        return false
       }
+      // try {
+      //   let quizAllReadyExists = await getQuiz(this.quizId)
+      //   console.log(quizAllReadyExists)
+      //   if (quizAllReadyExists === null) {
+      //     result = await createQuizDB({quizId: this.quizId, quizData: this.quiz})
+      //     console.log("Quiz successfully created")
+      //     result = true
+      //     return result
+      //   }
+      //   else {
+      //     result = false
+      //     console.log("Quiz with mentioned ID already exists")
+      //     return result
+      //   }
+      // } catch (error) {
+      //   console.log(error)
+      // }
     }
   }
 })

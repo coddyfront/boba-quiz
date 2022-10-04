@@ -1,22 +1,25 @@
 import { defineStore } from 'pinia';
-import { getQuiz } from '../../firebase';
+// import { getQuiz } from '../../firebase';
+import useQuiz from '@/composables/useQuiz';
 
 export const useSolveQuizStore = defineStore('quizSolve', {
     // other options...
     state: () =>  ({
-      quiz: {},
+      quiz: [],
       quizId: "",
       questionNumber: 0,
       username: "hello"
     }),
     actions: {
       async getQuizFromDB(quizID) {
-        let quizFromDB = await getQuiz(quizID)
-        if (quizFromDB === null) {
+        const {getQuizById} = useQuiz()
+        const {data} = await getQuizById(quizID)
+        console.log(data)
+        if (data === null) {
           return false
         } else {
-          console.log(this.username)
-          this.quiz = quizFromDB.quizData
+        
+          this.quiz = JSON.parse(data[0].data)
           return true
         }
       },
@@ -32,5 +35,41 @@ export const useSolveQuizStore = defineStore('quizSolve', {
       resetQuiz(){
         this.$reset()
       },
+      async getResults() {
+        const result = {
+          correctAnswers: 0,
+          uncorrectAnswers: 0
+        }
+        await this.quiz.forEach(async(item) =>{
+            console.log(item)
+           
+            if (item.typeOfQuestion === 'radio') {
+                if (item.user_answer == item.right_answer) {
+                    result.correctAnswers++
+                    console.log(true)
+                }else {
+                    result.uncorrectAnswers++
+                    console.log(false)
+
+                }
+            }
+            else if (item.typeOfQuestion === 'multiple') {
+                if (item.user_answers.includes(item.right_answers)) {
+                  result.correctAnswers++
+                }else {
+                  result.uncorrectAnswers++
+                }
+            }
+        })
+        return result
+        // quiz.quiz.forEach((item) => {
+        //     console.log(item)
+        // })
+      },
+      async saveResults(){
+      const results = await this.getResults()
+      const {applyResults}=useQuiz()
+      await applyResults(this.quizId, results)
+      }
     }
   })

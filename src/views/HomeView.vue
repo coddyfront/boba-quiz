@@ -3,7 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-    <div class="flex flex-col   w-full md:w-1/3 mx-auto mt-8 gap-2 bg-white rounded-md  justify-items-stretch px-8 py-4 ">
+    <div class="flex flex-col mx-2   md:w-2/3 lg:w-3/4 max-w-[500px] md:mx-auto mt-8 gap-2 bg-white rounded-md  justify-items-stretch px-8 py-4 ">
+      <img src="/logo.svg" class="h-64 mt-2" alt="">
         <h1 class="text-2xl font-bold text-center mb-4">Вас приветсвует BOBA QUIZ</h1>
         <RouterLink :to="{name: 'solve'}">
           <button class="btn-primary animate-scale-up-center w-full">Пройти QUIZ

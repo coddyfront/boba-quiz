@@ -5,9 +5,13 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'sans': ['Inter','Barlow', 'Noto Sans', 'Poppins','Noto Sans Display'],
+      // 'boba': url('./Sniglet-webfont.woff'),
+    },
     extend: {
       width: {
-        'big': '40rem'
+        'big': '576px'
       },
       animation: {
         'scale-up-center': 'scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000)    both',
@@ -60,5 +64,7 @@ module.exports = {
     },
    
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms')({
+    strategy: 'class', // only generate classes
+  })],
 }

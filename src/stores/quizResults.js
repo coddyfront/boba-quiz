@@ -14,7 +14,6 @@ export const useResultsQuizStore = defineStore('quizResults', {
     async getResults() {
         const quiz = useSolveQuizStore()
         this.username = quiz.username
-        
         await quiz.quiz.forEach(async(item) =>{
             console.log(item)
             if (item.typeOfQuestion === 'radio') {
@@ -24,11 +23,11 @@ export const useResultsQuizStore = defineStore('quizResults', {
                 }else {
                     await this.uncorrectAnswers++
                     console.log(false)
-
                 }
             }
             if (item.typeOfQuestion === 'multiple') {
                 if (item.user_answers.includes(item.right_answers)) {
+                  console.log(1111111111)
                     await this.correctAnswers++
                 }else {
                     await this.uncorrectAnswers++
@@ -38,6 +37,14 @@ export const useResultsQuizStore = defineStore('quizResults', {
         // quiz.quiz.forEach((item) => {
         //     console.log(item)
         // })
+      },
+      async setResults(data){
+        // const results = JSON.parse(data[0].data)
+        await this.resetQuiz()
+        // console.log(JSON.parse(data[0].results).results)
+        const parsedData = await JSON.parse(data[0].results)
+        this.correctAnswers = parsedData.results.correctAnswers
+        this.uncorrectAnswers = parsedData.results.uncorrectAnswers
       },
       resetQuiz(){
         this.$reset()

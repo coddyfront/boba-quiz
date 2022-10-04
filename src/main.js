@@ -8,7 +8,6 @@ import 'primevue/resources/themes/tailwind-light/theme.css'  //theme
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css';   
 import Divider from 'primevue/divider';
-import Fieldset from 'primevue/fieldset';
 import 'mosha-vue-toastify/dist/style.css';
 import { createApp } from 'vue'
 
@@ -20,7 +19,6 @@ const app = createApp(App)
 
 // "build": "vite build --base=/boba-quiz/",
 app.component('Divider', Divider);
-app.component('Fieldset', Fieldset);
 app.use(router)
 app.use(pinia)
 // app.use(store)

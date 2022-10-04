@@ -1,10 +1,9 @@
 <template >
-    <h2 class="text-xl font-medium"><span class="relative font-bold font-mono text-2xl ml-1">{{ number }}</span> Вопрос </h2>
-    
+    <h2 class="text-base text-rhino-100 bg-rhino-600 px-2 leading-tight rounded-full"><span class="relative font-black mr-1">{{ number }}</span>вопрос </h2>
 </template>
-<script>
-    export default {
-        name: "QuizCreateNumber",
-        props:['number']
-    }
+<script setup>
+    import {defineProps} from 'vue'
+    const props = defineProps({
+        number: Number
+    })
 </script>
