@@ -36,28 +36,34 @@ export const useSolveQuizStore = defineStore('quizSolve', {
         this.$reset()
       },
       async getResults() {
-        const result = {
+        let result = {
           correctAnswers: 0,
           uncorrectAnswers: 0
         }
         await this.quiz.forEach(async(item) =>{
             console.log(item)
-           
             if (item.typeOfQuestion === 'radio') {
                 if (item.user_answer == item.right_answer) {
-                    result.correctAnswers++
+                  result.correctAnswers++
                     console.log(true)
+                    return
                 }else {
-                    result.uncorrectAnswers++
                     console.log(false)
-
+                    result.uncorrectAnswers++
+                    return
                 }
             }
-            else if (item.typeOfQuestion === 'multiple') {
-                if (item.user_answers.includes(item.right_answers)) {
+            if (item.typeOfQuestion === 'multiple') {
+                if (item.user_answers.length != item.right_answers.length) {this.uncorrectAnswers++; return;}
+                for (let i = 0; i <= item.user_answers.length-1; i++) {
+                  if(!item.right_answers.includes(item.user_answers[i])) {
+                    console.log(1)
+                    result.uncorrectAnswers++
+                    return 
+                  }
+                  console.log(112313)
                   result.correctAnswers++
-                }else {
-                  result.uncorrectAnswers++
+                  return
                 }
             }
         })

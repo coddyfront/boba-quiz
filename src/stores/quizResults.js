@@ -11,33 +11,41 @@ export const useResultsQuizStore = defineStore('quizResults', {
       uncorrectAnswers: 0,
     }),
     actions: {
-    async getResults() {
-        const quiz = useSolveQuizStore()
-        this.username = quiz.username
-        await quiz.quiz.forEach(async(item) =>{
-            console.log(item)
-            if (item.typeOfQuestion === 'radio') {
-                if (item.user_answer == item.right_answer) {
-                    await this.correctAnswers++
-                    console.log(true)
-                }else {
-                    await this.uncorrectAnswers++
-                    console.log(false)
-                }
-            }
-            if (item.typeOfQuestion === 'multiple') {
-                if (item.user_answers.includes(item.right_answers)) {
-                  console.log(1111111111)
-                    await this.correctAnswers++
-                }else {
-                    await this.uncorrectAnswers++
-                }
-            }
-        })
-        // quiz.quiz.forEach((item) => {
-        //     console.log(item)
-        // })
-      },
+    // async getResults() {
+    //     this.resetQuiz()
+    //     const quizSolved = useSolveQuizStore()
+    //     this.username = quizSolved.username
+    //     await quizSolved.quiz.forEach(async(item) =>{
+    //         console.log(item)
+    //         if (item.typeOfQuestion === 'radio') {
+    //             if (item.user_answer == item.right_answer) {
+    //                 this.correctAnswers++
+    //                 console.log(true)
+    //                 return
+    //             }else {
+    //                 console.log(false)
+    //                 this.uncorrectAnswers++
+    //                 return
+    //             }
+    //         }
+    //         if (item.typeOfQuestion === 'multiple') {
+    //             if (item.user_answers.length != item.right_answers.length) {this.uncorrectAnswers++; return;}
+    //             for (let i = 0; i <= item.user_answers.length-1; i++) {
+    //               if(!item.right_answers.includes(item.user_answers[i])) {
+    //                 console.log(1)
+    //                 this.uncorrectAnswers++
+    //                 return 
+    //               }
+    //               console.log(112313)
+    //               this.correctAnswers++
+    //               return
+    //             }
+    //         }
+    //     })
+    //     // quiz.quiz.forEach((item) => {
+    //     //     console.log(item)
+    //     // })
+    //   },
       async setResults(data){
         // const results = JSON.parse(data[0].data)
         await this.resetQuiz()

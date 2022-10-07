@@ -1,8 +1,8 @@
 
 <template>
-  <div class="quiz flex items-center justify-center relative">
+  <div class="quiz flex items-center justify-center relative mx-2 lg:mx-0">
     <!-- stepper -->
-    <div class="flex flex-col justify-center items-start w-full md:w-big relative mb-4 mx-2 lg:mx-0 rounded-xl bg-white px-4 py-2 sm:px-6 sm:py-3 ring-2 ring-rhino-300 ring-inset">
+    <div class="flex flex-col justify-center items-start md:w-big relative  rounded-xl bg-white p-2 sm:px-6 sm:py-3 ring-2 ring-rhino-300 ring-inset">
       <!-- item (one quiz) -->
       <div class="inline-flex items-center justify-between w-full">
         <!-- <QuizCreateNumber :number="questionNumber" /> -->
@@ -13,15 +13,15 @@
       <path fill-rule="evenodd" d="M12.556 17.329l4.183 4.182a3.375 3.375 0 004.773-4.773l-3.306-3.305a6.803 6.803 0 01-1.53.043c-.394-.034-.682-.006-.867.042a.589.589 0 00-.167.063l-3.086 3.748zm3.414-1.36a.75.75 0 011.06 0l1.875 1.876a.75.75 0 11-1.06 1.06L15.97 17.03a.75.75 0 010-1.06z" clip-rule="evenodd" />
                     </svg>
                 </button>
-        <!-- <Popup placement="bottom" content="Опубликовать Boba Quiz без последнего вопроса?" click> -->
-        <button class="btn-primary items-center  inline-flex gap-1" @click="createNewQuiz" id="createNewQuiz">
+        <Popup placement="bottom" content="Опубликовать Boba Quiz без последнего вопроса?" v-on:yes="createNewQuiz" click>
+              <button class="btn-primary items-center  inline-flex gap-1"  id="createNewQuiz">
             <!-- <button class="btn-primary items-center  inline-flex gap-1"  id="createNewQuiz"> -->
                   Опубликовать
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                   <path d="M21.721 12.752a9.711 9.711 0 00-.945-5.003 12.754 12.754 0 01-4.339 2.708 18.991 18.991 0 01-.214 4.772 17.165 17.165 0 005.498-2.477zM14.634 15.55a17.324 17.324 0 00.332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 00.332 4.647 17.385 17.385 0 005.268 0zM9.772 17.119a18.963 18.963 0 004.456 0A17.182 17.182 0 0112 21.724a17.18 17.18 0 01-2.228-4.605zM7.777 15.23a18.87 18.87 0 01-.214-4.774 12.753 12.753 0 01-4.34-2.708 9.711 9.711 0 00-.944 5.004 17.165 17.165 0 005.498 2.477zM21.356 14.752a9.765 9.765 0 01-7.478 6.817 18.64 18.64 0 001.988-4.718 18.627 18.627 0 005.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 001.988 4.718 9.765 9.765 0 01-7.478-6.816zM13.878 2.43a9.755 9.755 0 016.116 3.986 11.267 11.267 0 01-3.746 2.504 18.63 18.63 0 00-2.37-6.49zM12 2.276a17.152 17.152 0 012.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0112 2.276zM10.122 2.43a18.629 18.629 0 00-2.37 6.49 11.266 11.266 0 01-3.746-2.504 9.754 9.754 0 016.116-3.985z" />
                 </svg>
             </button>
-        <!-- </Popup> -->
+        </Popup>
       </div>
       <div class="flex flex-col w-full h-fit">
         <Transition name="fade" :duration="{ enter: 500, leave: 300 }">
@@ -135,26 +135,27 @@
     },
     methods: {
       // ...mapActions(useCreateQuizStore, ['']),
-      ...mapActions(useCreateQuizStore, ['plusQuestionNumber', 'minusQuestionNumber', 'deleteQuestion', 'setQuizId', 'createQuiz', 'resetQuiz']),
+      ...mapActions(useCreateQuizStore, ['plusQuestionNumber', 'minusQuestionNumber', 'deleteQuestion', 'deleteLastQuestion', 'setQuizId', 'createQuiz', 'resetQuiz']),
       async createNewQuiz() {
         // console.log(this.quiz)
         // console.log(error)
         let error = await checkQuizToCreate()
         console.log(error, 'error checkQuizToCreate')
-        if (error) {
-          return this.toastError('Прозошла какая-то ошибка :<')
-        } else {
-          await this.createQuiz().then(async(result) => {
-            console.log(result)
-            if (result === null) {
-              this.showModal()
-              await this.resetQuiz()
-            }
-            else {
-              return this.toastError('Квиз с данным Id уже существует')
-            }
-          })
+        if (error == true) {
+          return this.toastError('Прозошла какая-то ошибка, проверьте полнуту заполнения данных и попытайтесь создать Quiz снова :Ю')
+        }else if(error =='create without last question' ){
+          this.deleteLastQuestion()
         }
+        await this.createQuiz().then(async(result) => {
+          console.log(result)
+          if (result === null) {
+            this.showModal()
+            await this.resetQuiz()
+          }
+          else {
+            return this.toastError('Квиз с данным Id уже существует')
+          }
+        })
       },
       async createNewQuestion() {
         if (this.quiz[this.questionNumber].question !== "") {

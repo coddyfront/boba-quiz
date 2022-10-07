@@ -42,6 +42,12 @@ export const useCreateQuizStore = defineStore('quiz', {
       this.questionNumber--
     }
     },
+    deleteLastQuestion(){
+      if (this.quiz.length != 0) {
+      this.quiz.pop()
+      this.questionNumber--
+      }
+    },
     setTypeOfQuestion(question_index, typeOfQuestion) {
         this.quiz[question_index].typeOfQuestion = typeOfQuestion
     },

@@ -1,11 +1,11 @@
 <script setup>
     // This starter template is using Vue 3 <script setup> SFCs
-    import { computePosition, offset, flip, shift } from '@floating-ui/dom';
-    import { ref, onMounted, defineEmits } from 'vue';
+    import { computePosition, offset, flip, arrow } from '@floating-ui/dom';
+    import { ref, onMounted } from 'vue';
     const referenceRef = ref();
     const floatingRef = ref();
+    const arrowRef = ref();
     const isHidden = ref(true);
-    const emit = defineEmits(['no', 'yes'])
     const props = defineProps({
       content: String,
       placement: {
@@ -27,12 +27,27 @@
         floatingRef.value,
         {
           placement: props.placement,
-          middleware: [offset(8), flip(), shift({padding: 10})],
+          middleware: [offset(8), flip(), arrow({ element: arrowRef.value })],
         }
       ).then(({ x, y, middlewareData, placement }) => {
         Object.assign(floatingRef.value.style, {
           left: `${x}px`,
           top: `${y}px`,
+        });
+        const { x: arrowX, y: arrowY } = middlewareData.arrow;
+        const staticSide = {
+          top: 'bottom',
+          right: 'left',
+          bottom: 'top',
+          left: 'right',
+        }[placement.split('-')[0]];
+    
+        Object.assign(arrowRef.value.style, {
+          left: arrowX != null ? `${arrowX}px` : '',
+          top: arrowY != null ? `${arrowY}px` : '',
+          right: '',
+          bottom: '',
+          [staticSide]: '-4px',
         });
       });
     }
@@ -47,7 +62,6 @@
     function hide() {
       isHidden.value = true;
       updateTootlip();
-      
     }
     function showAndHide() {
       show();
@@ -57,14 +71,6 @@
       else {
         return;
       }
-    }
-    function answerNo(){
-        hide()
-        emit('no')
-    }
-    function answerYes(){
-        hide()
-        emit('yes')
     }
     </script>
     
@@ -82,15 +88,19 @@
         <div
           ref="floatingRef"
           :class="[
-            'absolute px-4 py-3 rounded-xl top-0 left-0 bg-white text-rhino-900  ring-2 ring-rhino-100 z-10 font-base  transition ease duration-300 w-64',
+            'absolute top-0 left-0 bg-rhino-100 text-rhino-900 px-3 py-2 ring-2 ring-rhino-400 z-10 font-base rounded-xl transition ease duration-300 w-64',
             isHidden && 'hidden',
           ]"
         >
           {{ props.content }}
-            <div class="flex justify-end w-full gap-2 mt-3">
-                <button class=" rounded-lg  py-2 px-4 sm:py-2.5 sm:px-6 text-sm sm:text-base font-medium text-rhino-700 transition ease-out hover:bg-rhino-50  focus:outline-none focus:ring-2 focus:ring-rhino-300" @click="answerNo">Нет</button>
-                <button class=" rounded-lg bg-rhino-400 py-2 px-4 sm:py-2.5 sm:px-6 text-sm sm:text-base font-medium text-white transition ease-out hover:bg-rhino-600 focus:outline-none focus:ring-2 focus:ring-rhino-800" @click="answerYes">Да</button>
-            </div>
+          <div class="w-full grid grid-cols-2 gap-2 mt-4">
+            <button class="btn-secondary">Нет</button>
+            <button class="btn-primary">Да</button>
+          </div>
+          <div
+            ref="arrowRef"
+            class="absolute bg-rhino-400 h-[8px] w-[8px] rotate-45  "
+          ></div>
         </div>
       </div>
     </template>

@@ -42,9 +42,6 @@ export default {
     setup() {
         const store = useResultsQuizStore()
         return {store}
-    },
-    created(){
-        this.store.getResults()
     }
 }
 </script>

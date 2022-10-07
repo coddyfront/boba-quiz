@@ -2,13 +2,21 @@ import { useCreateQuizStore } from '../stores/quiz';
 
 async function checkQuizToCreate(){
     console.log('start checking.....')
-    const store = await useCreateQuizStore()
-    for (let i = 0; i <= store.questionNumber; i++) {
+    const store = useCreateQuizStore()
+    if (store.quiz.length == 1) {
+        return true
+    }
+    for (let i = 0; i <= store.quiz.length-1; i++) {
+        console.log(store.quiz[i].typeOfQuestion)
         if (store.quiz[i].typeOfQuestion === "radio") {
             if (store.quiz[i].answers.length === 0
                 || store.quiz[i].question === ""
                 || store.quiz[i].user_answer === "") {
                     console.log('error')
+                    if (store.questionNumber == store.quiz.length-1){
+                        console.log(11111)
+                        return 'create without last question'
+                    }
                     return true;
             }
         }
@@ -17,6 +25,9 @@ async function checkQuizToCreate(){
                 || store.quiz[i].question === ""
                 || store.quiz[i].user_answers.length === 0) {
                     console.log('error')
+                    if (store.questionNumber == store.quiz.length){
+                        return 'create without last question'
+                    }
                     return true;
             }
         }
