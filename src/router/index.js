@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import { useSolveQuizStore } from '@/stores/quizSolve';
 import { useCreateQuizStore } from '../stores/quiz'
 import { useResultsQuizStore } from '../stores/quizResults'
 import useAuthUser from "@/composables/useAuthUser";
 import useQuiz from "@/composables/useQuiz";
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
