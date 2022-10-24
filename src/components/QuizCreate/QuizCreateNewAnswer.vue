@@ -32,7 +32,7 @@ export default {
           if (newData === false && this.newAnswer !== "") {
             this.quiz[this.questionNumber].answers.push(this.newAnswer.trim())
             this.newAnswer = ""
-            this.$refs['newAnswer'].focus()
+            // this.$refs['newAnswer'].focus()
            console.log(this.$refs)
             // this.$emit('addNewAnswer', this.quiz[this.questionNumber].answers.length-1)
 
