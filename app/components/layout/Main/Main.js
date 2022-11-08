@@ -2,9 +2,9 @@ import React from 'react';
 
 const Main = ({Component, pageProps}) => {
     return (
-        <div className="">
+        <main className="p-2 h-full">
             <Component {...pageProps}/>
-        </div>
+        </main>
     );
 };
 

@@ -1,13 +1,17 @@
 import React from 'react';
 import Header from "./Header/Header";
 import Main from "./Main/Main";
+import HeadTag from "./Head/HeadTag";
 
 const Layout = ({Component, pageProps}) => {
     return (
-        <div className="">
-            <Header/>
-            <Main Component={Component} pageProps={pageProps}/>
-        </div>
+        <>
+            <HeadTag title={pageProps.title} description={pageProps.description}/>
+            <div className="bg-white dark:bg-black flex flex-col">
+                <Header/>
+                <Main Component={Component} pageProps={pageProps}/>
+            </div>
+        </>
     );
 };
 

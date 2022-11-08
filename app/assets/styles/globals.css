@@ -9,6 +9,11 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 62.5%;
+
+}
+
 /* Убираем внутренние отступы */
 ul[class],
 ol[class] {
@@ -39,6 +44,26 @@ body {
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
+    font-size: 2rem;
+}
+
+.light {
+    --bg-color: #ffffff;
+    --color-secondary: #fbfbfe;
+    --color-accent: #fd6f53;
+    --font-color: #000000;
+}
+.dark {
+    --bg-color: #000000;
+    --color-secondary: #243133;
+    --color-accent: #12cdea;
+    --font-color: #ffffff;
+}
+
+#__next {
+    min-height: 100vh;
+    background-color: var(--bg-color);
+
 }
 
 /* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/

@@ -3,21 +3,22 @@ import {Menu} from '@headlessui/react'
 import Link from "next/link";
 import Image from "next/image";
 import Logo from '/app/assets/images/Logo.svg'
+import SwitchTheme from "../../shared/SwitchTheme";
 
 const Header = () => {
 
-    const styleButton = 'inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 mx-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
+    const styleButton = 'inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 mx-2 font-medium text-white text-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
 
     return (
         <header className="bg-main_blue w-full p-2 flex justify-between	items-center">
             <div className="flex">
                 <Link className="flex items-center" href="/">
                     <Image src={Logo} alt="Логотип Boba Quiz" className="w-10 mx-2"/>
-                    <p className="text-white px-2 text-2xl" >Boba Quiz</p>
+                    <p className="text-white px-2 text-h1">Boba Quiz</p>
                 </Link>
                 <nav className="flex items-center mx-3">
-                    <Link className="text-white px-3" href="/#">
-                        Страница 1
+                    <Link className="text-white px-3" href="/quiz/create">
+                        Создать квиз
                     </Link>
                     <Link className="text-white px-3" href="/#">
                         Страница 2
@@ -33,6 +34,7 @@ const Header = () => {
                         Регистрация
                     </Menu.Button>
                 </Menu>
+                <SwitchTheme/>
             </div>
         </header>
     );
