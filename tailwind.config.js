@@ -10,7 +10,14 @@ module.exports = {
                 "main_blue": '#534fb3',
                 "main_blue-50": 'rgba(83,79,179,0.5)',
                 "main_red": '#534fb3',
+                "gray": '#8d8d8d',
             },
+            gridTemplateColumns: {
+                '1_2': '1fr 2fr'
+            },
+            height: {
+                'screen-130px': "calc(100vh - 130px)"
+            }
         },
         fontSize: {
             'default': '2rem',
@@ -23,7 +30,6 @@ module.exports = {
             'h5': '2.441rem',
             'h6': '3.052rem',
         }
-
     },
     plugins: [],
 }

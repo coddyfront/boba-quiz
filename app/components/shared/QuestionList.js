@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import QuestionBlock from "./QuestionBlock";
 import TextButton from "../ui/TextButton";
+import TypeOfQuestionList from "./TypeOfQuestionList";
 
 const QuestionList = () => {
 
@@ -17,14 +18,18 @@ const QuestionList = () => {
         },
     ]
 
-    let [questionsList, setQuestionsList] = useState([])
+    const [questionsList, setQuestionsList] = useState([])
+    const [activeQuestionNumber, setActiveQuestionNumber] = useState(0)
+    const [isRender, setIsRender] = useState(false)
 
-    useEffect(()=> {
+
+    useEffect(() => {
         setQuestionsList([{
             questionText: '',
             answersList: [''],
             typeAnswer: typesAnswerList[0]
         }])
+        setIsRender(true)
     }, [])
 
     const addQuestion = () => {
@@ -46,7 +51,8 @@ const QuestionList = () => {
 
     const changeQuestion = (questionDTO, number) => {
         const temp = [...questionsList]
-        if (questionDTO === 0) {
+        const clearAnswer = questionDTO === 0
+        if (clearAnswer) {
             questionDTO = {
                 questionText: questionsList[number].questionText,
                 answersList: [''],
@@ -57,17 +63,39 @@ const QuestionList = () => {
         setQuestionsList([...temp])
     }
 
-    console.log(questionsList)
+    const changeTypeAnswers = (selected, number) => {
+        let temp = {...questionsList}
+        temp[number].typeAnswer = selected
+        changeQuestion(0, number)
+    }
 
     return (
-        <div className="flex flex-col items-center">
-            {
-                questionsList.map((question, index) =>
-                    <QuestionBlock question={question} number={index} action={changeQuestion}
-                                   typesAnswerList={typesAnswerList} removeQuestion={removeQuestion}/>
-                )
-            }
-            <TextButton text={"Добавить вопрос"} color={"white"} bgColor={"main_blue"} action={addQuestion}/>
+        <div className="grid grid-cols-1_2 h-full">
+            <div className="flex flex-col items-center">
+                <h2 className="my-3">Тип вопроса</h2>
+                {
+                    isRender &&
+                    <TypeOfQuestionList questionNumber={activeQuestionNumber}
+                                        question={questionsList[activeQuestionNumber]}
+                                        changeTypeAnswers={changeTypeAnswers}
+                                        typesAnswerList={typesAnswerList}/>
+                }
+            </div>
+            <div className="flex flex-col items-center overflow-y-scroll">
+                <h2 className="my-3">Создание теста</h2>
+                <div className="w-full h-screen-130px flex flex-col items-center">
+                    {
+                        questionsList.map((question, index) =>
+                            <QuestionBlock question={question} number={index} action={changeQuestion}
+                                           typesAnswerList={typesAnswerList} removeQuestion={removeQuestion}
+                                           active={index === activeQuestionNumber}
+                                           setActive={() => setActiveQuestionNumber(index)}/>
+                        )
+                    }
+                    <TextButton text={"Добавить вопрос"} color={"white"} bgColor={"main_blue"} style={'w-1/2'}
+                                action={addQuestion}/>
+                </div>
+            </div>
         </div>
     );
 };

@@ -21,7 +21,7 @@ const AnswerBlock = ({type, action, number, answerText}) => {
                         <div className="flex items-center w-full">
                             <input type="checkbox" disabled
                                    className="w-10 h-10 mr-10"/>
-                            <InputText placeholder="Введите ответ" value={answerText}/>
+                            <InputText placeholder="Введите ответ" action={changeAnswer} value={answerText}/>
                         </div>,
                 }[type]
             }
