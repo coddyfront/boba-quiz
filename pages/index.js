@@ -1,7 +1,9 @@
+import StartCreateQuizScreen from "../app/components/screens/StartCreateQuizScreen";
+
 export default function Home({props}) {
     return (
         <>
-            <h1>Привет!</h1>
+            <StartCreateQuizScreen/>
         </>
     )
 }

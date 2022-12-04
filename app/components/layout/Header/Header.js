@@ -17,11 +17,8 @@ const Header = () => {
                     <p className="text-white px-2 text-h1">Boba Quiz</p>
                 </Link>
                 <nav className="flex items-center mx-3">
-                    <Link className="text-white px-3" href="/quiz/create">
-                        Создать квиз
-                    </Link>
                     <Link className="text-white px-3" href="/#">
-                        Страница 2
+                        Страница 1
                     </Link>
                 </nav>
             </div>

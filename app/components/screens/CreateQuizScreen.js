@@ -1,5 +1,5 @@
 import React from 'react';
-import QuestionList from "../shared/QuestionList";
+import QuestionList from "../shared/quiz/question/QuestionList";
 
 const CreateQuizScreen = () => {
 

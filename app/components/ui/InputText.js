@@ -6,6 +6,7 @@ const InputText = ({label, placeholder, color, bgColor, required, id, action, va
         action(e.target.value)
         e.target.style.height = 'auto'
         e.target.style.height = e.target.scrollHeight + 2 + 'px'
+        // configStore.focusElementID = id
     }
 
     return (
